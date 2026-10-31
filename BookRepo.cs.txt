@@ -1,0 +1,60 @@
+﻿using LibarayManagement.BookModel;
+using System.Collections.Generic;
+using System.IO;
+
+namespace ProjectManagement.Library
+{
+    internal class BookRepo
+    {
+        private readonly string file = "books.txt";
+
+        public BookRepo() { }
+
+        public void SaveInFile(BookModel book)
+        {
+            using (StreamWriter stream = new StreamWriter(file, true))
+            {
+                stream.Write(book.ToString());
+            }
+        }
+
+        public void SaveAllDataIntoFile(List<BookModel> books)
+        {
+            File.WriteAllText(file, "");
+            foreach (var book in books)
+            {
+                SaveInFile(book);
+            }
+        }
+
+        public List<BookModel> GetBooksFromFile()
+        {
+            List<BookModel> bookModels = new List<BookModel>();
+
+            if (File.Exists(file))
+            {
+                using (StreamReader stream = new StreamReader(file))
+                {
+                    string line = "";
+                    while ((line = stream.ReadLine()) != null)
+                    {
+                        string[] parts = line.Split(',');
+
+                        if (parts.Length >= 5)
+                        {
+                            int id = int.Parse(parts[0]);
+                            string title = parts[1];
+                            string author = parts[2];
+                            int copies = int.Parse(parts[3]);
+                            float price = float.Parse(parts[4]);
+
+                            BookModel book = new BookModel(id, title, author, copies, price);
+                            bookModels.Add(book);
+                        }
+                    }
+                }
+            }
+            return bookModels;
+        }
+    }
+}

@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LibarayManagement.BookModel
+{
+    internal class BookModel
+    {
+        
+        private int bookId;
+        private string title;
+        private string author;
+        private int copies;
+        private float price;
+
+        public BookModel() 
+        {
+
+        }
+
+        public BookModel(int bookId, string title, string author, int copies, float price)
+        {
+            this.bookId = bookId;
+            this.title = title;
+            this.author = author;
+            this.copies = copies;
+            this.price = price;
+        }
+
+        // Getters and Setters
+        public void SetBookId(int id) { this.bookId = id; }
+        public int GetBookId() { return this.bookId; }
+
+        public void SetTitle(string title) { this.title = title; }
+        public string GetTitle() { return this.title; }
+
+        public void SetAuthor(string author) { this.author = author; }
+        public string GetAuthor() { return this.author; }
+
+        public void SetCopies(int copies) { this.copies = copies; }
+        public int GetCopies() { return this.copies; }
+
+        public void SetPrice(float price) { this.price = price; }
+        public float GetPrice() { return this.price; }
+
+        public override string ToString()
+        {
+            return $"{bookId},{title},{author},{copies},{price}\n";
+        }
+    }
+}
+    
+

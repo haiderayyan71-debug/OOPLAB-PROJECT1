@@ -1,0 +1,142 @@
+﻿using LibarayManagement.BookModel;
+using System;
+using System.Collections.Generic;
+
+namespace ProjectManagement.Library
+{
+    internal class BookUI
+    {
+        private BookService _bookService = new BookService();
+
+        public void Start()
+        {
+            BookDriver();
+        }
+
+        public void BookDriver()
+        {
+            while (true)
+            {
+                string option = BookMenu();
+
+                if (option == "1")
+                {
+                    AddBookUI();
+                }
+                else if (option == "2")
+                {
+                    UpdateBook();
+                }
+                else if (option == "3")
+                {
+                    DeleteBook();
+                }
+                else if (option == "4")
+                {
+                    DisplayAllBooks();
+                }
+                else if (option == "5")
+                {
+                    break; // Exit back to main program
+                }
+                else
+                {
+                    Console.WriteLine("Wrong option selected. Press any key to try again.");
+                    Console.ReadKey();
+                }
+            }
+        }
+
+        public string BookMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("================================================");
+            Console.WriteLine("            LIBRARY MANAGEMENT SYSTEM           ");
+            Console.WriteLine("================================================");
+            Console.WriteLine("1. Add Book");
+            Console.WriteLine("2. Update Book Price");
+            Console.WriteLine("3. Delete Book");
+            Console.WriteLine("4. View All Books");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("5. Back");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.Write("\nEnter your choice: ");
+            return Console.ReadLine();
+        }
+
+        public void AddBookUI()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Add New Book ---");
+
+            Console.Write("Enter Book ID: ");
+            int id = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter Book Title: ");
+            string title = Console.ReadLine();
+
+            Console.Write("Enter Author Name: ");
+            string author = Console.ReadLine();
+
+            Console.Write("Enter Number of Copies: ");
+            int copies = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter Book Price: ");
+            float price = float.Parse(Console.ReadLine());
+
+            _bookService.AddBook(id, title, author, copies, price);
+
+            Console.WriteLine("\nBook Added Successfully! Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public void UpdateBook()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Update Book Price ---");
+
+            Console.Write("Enter book title to update: ");
+            string title = Console.ReadLine();
+
+            Console.Write("Enter new book price: ");
+            float price = float.Parse(Console.ReadLine());
+
+            _bookService.UpdateBookPrice(title, price);
+
+            Console.WriteLine("\nBook Updated Successfully! Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public void DeleteBook()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Delete Book ---");
+
+            Console.Write("Enter book title to delete: ");
+            string title = Console.ReadLine();
+
+            _bookService.DeleteBookByTitle(title);
+
+            Console.WriteLine("\nBook Deleted Successfully! Press any key to continue...");
+            Console.ReadKey();
+        }
+
+        public void DisplayAllBooks()
+        {
+            Console.Clear();
+            Console.WriteLine("--- All Books List ---");
+
+            List<BookModel> books = _bookService.GetAllBooks();
+
+            foreach (BookModel b in books)
+            {
+                Console.WriteLine($"ID: {b.GetBookId()} | Title: {b.GetTitle()} | Author: {b.GetAuthor()} | Copies: {b.GetCopies()} | Price: {b.GetPrice()}");
+            }
+
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+        }
+    }
+}

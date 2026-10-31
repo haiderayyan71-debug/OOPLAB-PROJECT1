@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using ProjectManagement.Library;
+
+namespace ProjectManagement.Library
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            BookUI bookUI = new BookUI();
+            bookUI.Start();
+        }
+    }
+}

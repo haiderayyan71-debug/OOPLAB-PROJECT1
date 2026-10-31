@@ -1,0 +1,45 @@
+﻿using LibarayManagement.BookModel;
+using System.Collections.Generic;
+
+namespace ProjectManagement.Library
+{
+    internal class BookService
+    {
+        private BookRepo _bookRepo = new BookRepo();
+
+        public BookService() { }
+
+        public void AddBook(int id, string title, string author, int copies, float price)
+        {
+            BookModel newBook = new BookModel(id, title, author, copies, price);
+            _bookRepo.SaveInFile(newBook);
+        }
+
+        public List<BookModel> GetAllBooks()
+        {
+            return _bookRepo.GetBooksFromFile();
+        }
+
+        public void UpdateBookPrice(string title, float newPrice)
+        {
+            List<BookModel> books = _bookRepo.GetBooksFromFile();
+
+            foreach (var book in books)
+            {
+                if (book.GetTitle().ToLower() == title.ToLower())
+                {
+                    book.SetPrice(newPrice);
+                }
+            }
+
+            _bookRepo.SaveAllDataIntoFile(books);
+        }
+
+        public void DeleteBookByTitle(string title)
+        {
+            List<BookModel> books = _bookRepo.GetBooksFromFile();
+            books.RemoveAll(book => book.GetTitle().ToLower() == title.ToLower());
+            _bookRepo.SaveAllDataIntoFile(books);
+        }
+    }
+}
